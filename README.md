@@ -70,7 +70,7 @@ CAKERIA
     ├── /modules             # Módulos com funcionalidades específicas
     │   ├── module1.js
     │   ├── module2.js
-    │   └── ...              
+    │   └── ...
     └── /utils               # Funções utilitárias (reutilizáveis)
         ├── helper1.js
         ├── helper2.js
@@ -89,12 +89,14 @@ CAKERIA
 Para executar o projeto localmente, siga os passos abaixo:
 
 1. **Clone o repositório**:
+
    ```bash
    git clone https://github.com/seu-usuario/cakeria.git
    ```
 
 2. **Instale as dependências**:
    Navegue até a pasta do projeto e instale as dependências definidas no `package.json`:
+
    ```bash
    cd cakeria
    npm install
@@ -102,17 +104,22 @@ Para executar o projeto localmente, siga os passos abaixo:
 
 3. **Execute o servidor**:
    Se o projeto estiver utilizando o Express (configurado no `app.js`), inicie o servidor com:
+
    ```bash
    npm start
    ```
-   ou
+
    ```bash
    node app.js
    ```
 
+   ```bash
+   node run dev
+   ```
+
 4. **Acesse o projeto**:
    Abra o navegador e vá para:  
-   [http://localhost:3002](http://localhost:3002)
+   [http://localhost:3000](http://localhost:3000)
 
 > **Dica:** Caso o projeto seja apenas estático e você não deseje usar o servidor Node, você pode abrir o arquivo `index.html` diretamente no navegador ou usar uma extensão como o **Live Server** (para VSCode) para visualizar o projeto.
 
