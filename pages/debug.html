@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS para página de debug -->
+    <link rel="stylesheet" href="/debug.css" />
     <!-- Adicionar CSS dos componentes -->
     <link rel="stylesheet" href="/components/layout/components.css" />
     <link
@@ -10,66 +19,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <title>Diagnóstico de Componentes - Cakeria</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 0;
-        padding: 20px;
-        background-color: #f5f5f5;
-      }
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      h1 {
-        text-align: center;
-        color: #8a4b69;
-      }
-      .section {
-        margin-bottom: 30px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-      }
-      .section-title {
-        font-weight: bold;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid #eee;
-        color: #8a4b69;
-      }
-      .success {
-        color: green;
-        background-color: #e8f5e9;
-        padding: 10px;
-        border-radius: 5px;
-      }
-      .error {
-        color: #d8000c;
-        background-color: #ffbaba;
-        padding: 10px;
-        border-radius: 5px;
-      }
-      .code-box {
-        background-color: #f8f8f8;
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        overflow-x: auto;
-        margin: 10px 0;
-      }
-      .component-preview {
-        margin-top: 20px;
-        padding: 20px;
-        border: 2px dashed #8a4b69;
-        border-radius: 5px;
-      }
-    </style>
   </head>
   <body>
     <div class="container">
@@ -81,7 +30,19 @@
       </div>
 
       <div class="section">
-        <div class="section-title">2. Conteúdo do Header</div>
+        <div class="section-title">2. Verificação de Favicon</div>
+        <div id="favicon-check"></div>
+        <div class="favicon-grid" id="favicon-grid"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">3. Verificação de Páginas</div>
+        <div id="pages-check"></div>
+        <div class="pages-grid" id="pages-grid"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">4. Conteúdo do Header</div>
         <div id="header-content"></div>
         <div class="component-preview">
           <strong>Visualização do Header:</strong>
@@ -90,7 +51,7 @@
       </div>
 
       <div class="section">
-        <div class="section-title">3. Conteúdo do Footer</div>
+        <div class="section-title">5. Conteúdo do Footer</div>
         <div id="footer-content"></div>
         <div class="component-preview">
           <strong>Visualização do Footer:</strong>
@@ -99,161 +60,11 @@
       </div>
 
       <div class="section">
-        <div class="section-title">4. Análise de CSS</div>
+        <div class="section-title">6. Análise de CSS</div>
         <div id="css-check"></div>
       </div>
     </div>
 
-    <script>
-      // Função para verificar se um arquivo existe
-      async function checkFile(path) {
-        try {
-          const response = await fetch(path);
-          return {
-            exists: response.ok,
-            status: response.status,
-            path: path,
-          };
-        } catch (error) {
-          return {
-            exists: false,
-            status: "Erro",
-            error: error.message,
-            path: path,
-          };
-        }
-      }
-
-      // Função para exibir conteúdo do arquivo
-      async function showFileContent(path, elementId, previewId) {
-        const element = document.getElementById(elementId);
-        const previewElement = document.getElementById(previewId);
-
-        try {
-          const response = await fetch(path);
-
-          if (response.ok) {
-            const content = await response.text();
-            element.innerHTML = `
-                        <div class="success">✓ Arquivo encontrado em ${path}</div>
-                        <div class="code-box">${content
-                          .replace(/</g, "&lt;")
-                          .replace(/>/g, "&gt;")}</div>
-                    `;
-
-            // Adiciona o conteúdo real para visualização
-            if (previewElement) {
-              previewElement.innerHTML = content;
-            }
-          } else {
-            element.innerHTML = `<div class="error">✗ Falha ao carregar ${path}: ${response.status}</div>`;
-          }
-        } catch (error) {
-          element.innerHTML = `<div class="error">✗ Erro ao acessar ${path}: ${error.message}</div>`;
-        }
-      }
-
-      // Verifica os caminhos dos arquivos
-      async function checkPaths() {
-        const pathElement = document.getElementById("path-check");
-        pathElement.innerHTML = "<div>Verificando caminhos...</div>";
-
-        const paths = [
-          "/components/layout/header.html",
-          "/components/layout/footer.html",
-          "/components/layout/components.css",
-          "/js/index.js",
-        ];
-
-        const results = await Promise.all(paths.map((path) => checkFile(path)));
-
-        let html = "";
-        let allGood = true;
-
-        results.forEach((result) => {
-          if (result.exists) {
-            html += `<div class="success">✓ ${result.path} está acessível (${result.status})</div>`;
-          } else {
-            html += `<div class="error">✗ ${result.path} não está acessível: ${
-              result.status || result.error
-            }</div>`;
-            allGood = false;
-          }
-        });
-
-        if (allGood) {
-          html +=
-            '<div class="success" style="margin-top:15px;font-weight:bold">Todos os arquivos estão acessíveis!</div>';
-        } else {
-          html += `
-                    <div class="error" style="margin-top:15px;font-weight:bold">
-                        Alguns arquivos não estão acessíveis. Verifique:
-                        <ul>
-                            <li>Se os arquivos existem nos caminhos corretos</li>
-                            <li>Se o servidor web está configurado corretamente</li>
-                            <li>Se os caminhos no JavaScript estão corretos</li>
-                        </ul>
-                    </div>
-                `;
-        }
-
-        pathElement.innerHTML = html;
-      }
-
-      // Verificar CSS
-      async function checkCSS() {
-        const cssElement = document.getElementById("css-check");
-
-        try {
-          const response = await fetch("/components/layout/components.css");
-
-          if (response.ok) {
-            const content = await response.text();
-            const hasHeaderStyles = content.includes("header {");
-            const hasFooterStyles = content.includes("footer {");
-
-            let html = '<div class="success">✓ Arquivo CSS encontrado</div>';
-
-            if (hasHeaderStyles) {
-              html +=
-                '<div class="success">✓ Estilos para o header encontrados</div>';
-            } else {
-              html +=
-                '<div class="error">✗ Estilos para o header não encontrados</div>';
-            }
-
-            if (hasFooterStyles) {
-              html +=
-                '<div class="success">✓ Estilos para o footer encontrados</div>';
-            } else {
-              html +=
-                '<div class="error">✗ Estilos para o footer não encontrados</div>';
-            }
-
-            cssElement.innerHTML = html;
-          } else {
-            cssElement.innerHTML = `<div class="error">✗ Falha ao carregar CSS: ${response.status}</div>`;
-          }
-        } catch (error) {
-          cssElement.innerHTML = `<div class="error">✗ Erro ao acessar CSS: ${error.message}</div>`;
-        }
-      }
-
-      // Executar verificações quando a página carregar
-      document.addEventListener("DOMContentLoaded", function () {
-        checkPaths();
-        showFileContent(
-          "/components/layout/header.html",
-          "header-content",
-          "header-preview"
-        );
-        showFileContent(
-          "/components/layout/footer.html",
-          "footer-content",
-          "footer-preview"
-        );
-        checkCSS();
-      });
-    </script>
+    <script src="/js/debug.js"></script>
   </body>
 </html>

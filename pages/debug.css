@@ -1,0 +1,153 @@
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 25px;
+  background-color: white;
+  padding: 50px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #8a4b69;
+}
+
+.section {
+  margin-bottom: 30px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  color: #8a4b69;
+}
+
+.success {
+  color: green;
+  background-color: #e8f5e9;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.error {
+  color: #d8000c;
+  background-color: #ffbaba;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.warning {
+  color: #9f6000;
+  background-color: #feefb3;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.code-box {
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  margin: 10px 0;
+}
+
+.component-preview {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px dashed #8a4b69;
+  border-radius: 5px;
+}
+
+.favicon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.favicon-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.favicon-item img {
+  max-width: 64px;
+  max-height: 64px;
+}
+
+.pages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.page-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.page-item h3 {
+  margin-top: 0;
+  font-size: 1rem;
+  color: #8a4b69;
+}
+
+.page-status {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.page-status span {
+  margin-left: 5px;
+}
+
+.status-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-success {
+  background-color: green;
+}
+
+.status-error {
+  background-color: #d8000c;
+}
+
+.test-results-container {
+  margin-top: 15px;
+}
+
+.toggle-button {
+  background-color: #8a4b69;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.toggle-button:hover {
+  background-color: #72405a;
+}
