@@ -1,151 +1,247 @@
 # Cakeria
 
-Bem-vindo(a) ao **Cakeria**! Este projeto tem como objetivo criar um site para exibir e gerenciar informações sobre bolos, doces e outros produtos de confeitaria. Aqui você encontrará as instruções para executar o projeto localmente com um servidor Express, bem como detalhes sobre a estrutura de diretórios e como contribuir.
+Cakeria é uma plataforma online para gerenciamento de uma confeitária. O projeto está estruturado em duas partes principais: **backend** (Node.js/Express, utilizando Sequelize) e **frontend** (arquivos estáticos ou framework JS). Além disso, há um arquivo `script.sql` para criação ou configuração inicial do banco.
+
+## Índice
+
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Tecnologias Principais](#tecnologias-principais)
+- [Instalação e Configuração](#instalação-e-configuração)
+  - [1. Banco de Dados](#1-banco-de-dados)
+  - [2. Backend](#2-backend)
+  - [3. Frontend](#3-frontend)
+- [Uso de NPM e Yarn](#uso-de-npm-e-yarn)
+- [Scripts Úteis](#scripts-úteis)
+- [Uso](#uso)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
+- [Contato](#contato)
 
 ---
 
-## Sumário
+## Estrutura do Projeto
 
-1. [Visão Geral](#visão-geral)
-2. [Tecnologias Utilizadas](#tecnologias-utilizadas)
-3. [Estrutura de Pastas](#estrutura-de-pastas)
-4. [Instalação e Execução](#instalação-e-execução)
-5. [Como Contribuir](#como-contribuir)
-6. [Licença](#licença)
-
----
-
-## Visão Geral
-
-O **Cakeria** é uma plataforma simples para exibir informações sobre produtos de confeitaria (bolos, doces, etc.). O projeto utiliza o [Express](https://expressjs.com/) para servir as páginas e arquivos estáticos, facilitando o desenvolvimento e a manutenção. A organização dos arquivos permite que cada parte (HTML, CSS, JavaScript, imagens e outros recursos) seja gerenciada de forma separada, garantindo clareza e escalabilidade.
-
----
-
-## Tecnologias Utilizadas
-
-- **HTML5**: Estrutura e marcação das páginas.
-- **CSS3**: Estilização e layout do site.
-- **JavaScript (ES6+)**: Lógica do front-end.
-- **Node.js & Express**: Ambiente de execução e servidor web para servir o projeto.
-- **npm**: Gerenciamento de dependências.
-
----
-
-## Estrutura de Pastas
-
-A estrutura do projeto foi organizada para separar os arquivos de visualização, estilos, scripts e demais recursos:
-
-```
-CAKERIA
-│
-├── app.js                   # Configuração do servidor Express
-├── package.json             # Informações do projeto e dependências (Node.js)
-├── package-lock.json        # Mapeamento exato das dependências instaladas
-├── .gitignore               # Arquivos/pastas ignorados pelo Git
-├── README.md                # Documentação do projeto (este arquivo)
-│
-└── /pages                   # Páginas HTML do projeto
-│   ├── index.html           # Página principal (servida pelo Express)
-│   ├── home.html            # Página adicional (ex.: Home)
-│   ├── about.html           # Página "Sobre"
-│   └── contact.html         # Página de contato
-│
-└── /assets                  # Arquivos de mídia (imagens, ícones, etc.)
-│   ├── /ico                 # Ícones no formato .ico
-│   │   ├── favicon.ico
-│   │   ├── icon_cakeria.ico
-│   │   └── logo_cakeria.ico
-│   ├── /png                 # Imagens em formato .png
-│   │   ├── icon_cakeria.png
-│   │   └── logo_cakeria.png
-│   └── /webp                # Imagens em formato .webp
-│       ├── icon_cakeria.webp
-│       └── logo_cakeria.webp
-│
-└── /css                     # Arquivos de estilo
-│   └── styles.css           # Estilos globais do projeto
-│
-└── /js                      # Arquivos JavaScript
-    ├── index.js             # Script principal (inicializa funcionalidades)
-    ├── /modules             # Módulos com funcionalidades específicas
-    │   ├── module1.js
-    │   ├── module2.js
-    │   └── ...
-    └── /utils               # Funções utilitárias (reutilizáveis)
-        ├── helper1.js
-        ├── helper2.js
-        └── ...
+```plaintext
+Cakeria/
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── migrations/
+│   ├── models/
+│   ├── routes/
+│   ├── scripts/
+│   ├── seeders/
+│   ├── .env            # Variáveis de ambiente do backend
+│   ├── app.js          # Ponto de entrada do servidor
+│   ├── package.json
+│   └── yarn.lock       # Lockfile do Yarn (ou package-lock.json se estiver usando npm)
+├── frontend/
+│   ├── public/
+│   ├── assets/
+│   ├── components/
+│   ├── css/
+│   ├── imgs/
+│   ├── js/
+│   ├── index.html
+│   ├── .env            # Variáveis de ambiente do frontend (se necessário)
+│   ├── app.js          # Script principal do frontend
+│   ├── package.json
+│   └── yarn.lock       # Lockfile do Yarn (ou package-lock.json se estiver usando npm)
+├── .gitignore
+├── README.md
+└── script.sql          # Script SQL para criação/configuração inicial do banco
 ```
 
-### Observações sobre a configuração de arquivos estáticos
+### Descrição das Principais Pastas e Arquivos
 
-- O Express foi configurado para servir a pasta `/pages` como conteúdo estático. Dessa forma, arquivos internos, como `pages/js/index.js` e `pages/css/styles.css`, ficam disponíveis diretamente nas URLs `/js/index.js` e `/css/styles.css`, respectivamente.
-- Se desejar que os arquivos sejam servidos com um prefixo (por exemplo, `/pages/js/index.js`), ajuste a configuração do `express.static` conforme necessário.
+- **backend/**: Código-fonte do servidor (Node.js + Express), incluindo configurações, rotas, controladores, modelos, migrações e seeders do Sequelize.
+- **frontend/**: Código-fonte do frontend, podendo ser arquivos HTML/CSS/JS puros ou um framework (React, Vue, Angular).
+- **script.sql**: Script para criação e configuração inicial do banco de dados.
 
 ---
 
-## Instalação e Execução
+## Tecnologias Principais
 
-Para executar o projeto localmente, siga os passos abaixo:
+- **Node.js + Express** para o servidor.
+- **Sequelize** para ORM (mapeamento objeto-relacional).
+- **MySQL / PostgreSQL / etc.** como banco de dados (dependendo da escolha).
+- **HTML, CSS, JS** (ou framework como React) para o frontend.
+- **dotenv** para gerenciamento de variáveis de ambiente.
 
-1. **Clone o repositório**:
+---
 
+## Instalação e Configuração
+
+### 1. Banco de Dados
+
+1. Instale e configure o SGBD de sua preferência (MySQL, PostgreSQL etc.).
+2. Crie um banco de dados (por exemplo, `cakeria_db`).
+3. Execute o `script.sql` para criar tabelas/configurações iniciais (exemplo para MySQL):
    ```bash
-   git clone https://github.com/seu-usuario/cakeria.git
+   mysql -u seu_usuario -p cakeria_db < script.sql
    ```
-
-2. **Instale as dependências**:
-   Navegue até a pasta do projeto e instale as dependências definidas no `package.json`:
-
+4. Caso vá utilizar migrations do Sequelize, você pode rodar:
    ```bash
-   cd cakeria
+   npx sequelize db:migrate
+   npx sequelize db:seed:all
+   ```
+   (Verifique na seção [Scripts Úteis](#scripts-úteis) como executar via npm ou yarn.)
+
+### 2. Backend
+
+1. Navegue até a pasta do backend:
+   ```bash
+   cd backend
+   ```
+2. Instale as dependências (com **npm** ou **yarn**, veja a próxima seção sobre como escolher):
+   ```bash
    npm install
    ```
+   ou
+   ```bash
+   yarn
+   ```
+3. Crie ou edite o arquivo `.env` com as variáveis de ambiente. Exemplo:
+   ```bash
+   DB_HOST=localhost
+   DB_USER=seu_usuario
+   DB_PASS=sua_senha
+   DB_NAME=cakeria_db
+   DB_DIALECT=mysql
+   PORT=8080
+   ```
+4. Inicie o servidor:
+   ```bash
+   npm run dev
+   ```
+   ou
+   ```bash
+   yarn dev
+   ```
+   O servidor estará disponível em `http://localhost:8080` (ou na porta definida no `.env`).
 
-3. **Execute o servidor**:
-   Se o projeto estiver utilizando o Express (configurado no `app.js`), inicie o servidor com:
+### 3. Frontend
 
+1. Em outro terminal, volte para a raiz do projeto e entre em `frontend`:
+   ```bash
+   cd ../frontend
+   ```
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+   ou
+   ```bash
+   yarn
+   ```
+3. Inicie o servidor de desenvolvimento:
    ```bash
    npm start
    ```
-
+   ou
    ```bash
-   node app.js
+   yarn start
    ```
-
-   ```bash
-   node run dev
-   ```
-
-4. **Acesse o projeto**:
-   Abra o navegador e vá para:  
-   [http://localhost:3000](http://localhost:3000)
-
-> **Dica:** Caso o projeto seja apenas estático e você não deseje usar o servidor Node, você pode abrir o arquivo `index.html` diretamente no navegador ou usar uma extensão como o **Live Server** (para VSCode) para visualizar o projeto.
+4. Abra seu navegador em `http://localhost:3000` (ou a porta exibida no terminal).
 
 ---
 
-## Como Contribuir
+## Uso de NPM e Yarn
 
-Contribuições são sempre bem-vindas! Se você deseja ajudar a melhorar o **Cakeria**, siga estes passos:
+Este projeto pode utilizar **npm** ou **yarn** para gerenciar dependências. A recomendação é **escolher um** gerenciador e mantê-lo em todo o projeto, para evitar conflitos nos arquivos de lock (`package-lock.json` e `yarn.lock`).
 
-1. Faça um **fork** do projeto.
-2. Crie uma nova branch a partir da `main`:
+- Se optar por **npm**, use:
+  ```bash
+  npm install
+  npm start
+  npm run dev
+  npm run build
+  ```
+- Se optar por **yarn**, use:
+  ```bash
+  yarn
+  yarn start
+  yarn dev
+  yarn build
+  ```
+
+> **Dica**: Se você já tem o `yarn.lock` no projeto, provavelmente o projeto foi configurado com Yarn. Caso contrário, se existe apenas `package-lock.json`, o projeto foi configurado com npm.
+
+---
+
+## Scripts Úteis
+
+No **backend** (em `package.json`), alguns scripts comuns podem ser:
+
+- **`npm run dev`** ou **`yarn dev`**: Inicia o servidor em modo de desenvolvimento (geralmente com `nodemon`).
+- **`npm start`** ou **`yarn start`**: Inicia o servidor em modo de produção.
+- **`npm run migrate`** ou **`yarn migrate`**: Executa `npx sequelize db:migrate`.
+- **`npm run seed`** ou **`yarn seed`**: Executa `npx sequelize db:seed:all`.
+- **`npm run rollback`** ou **`yarn rollback`**: Reverte a última migração (`npx sequelize db:migrate:undo`).
+
+No **frontend** (em `package.json`), você pode ter scripts como:
+
+- **`npm start`** ou **`yarn start`**: Inicia o servidor de desenvolvimento.
+- **`npm run build`** ou **`yarn build`**: Gera uma versão de produção otimizada.
+- **`npm run serve`** ou **`yarn serve`**: Serve localmente a build de produção (dependendo do framework utilizado).
+
+> Ajuste esses scripts de acordo com a configuração real do seu projeto.
+
+---
+
+## Uso
+
+Depois de:
+
+1. Configurar o banco de dados.
+2. Iniciar o **backend** (`npm run dev` ou `yarn dev`).
+3. Iniciar o **frontend** (`npm start` ou `yarn start`).
+
+A aplicação estará acessível no **frontend** (por padrão em `http://localhost:3000`) e se comunicará com o **backend** (por padrão em `http://localhost:8080`).
+
+---
+
+## Contribuição
+
+Contribuições são bem-vindas! Para colaborar:
+
+1. Faça um **fork** deste repositório.
+2. Crie uma nova **branch** para sua feature:
    ```bash
-   git checkout -b minha-nova-funcionalidade
+   git checkout -b minha-feature
    ```
-3. Realize suas alterações e faça commits descritivos:
+3. Faça commits das suas alterações:
    ```bash
-   git commit -m "Descrição clara da alteração"
+   git commit -m "Implementa nova feature X"
    ```
-4. Envie suas alterações para o seu fork:
+4. Envie para o seu fork:
    ```bash
-   git push origin minha-nova-funcionalidade
+   git push origin minha-feature
    ```
-5. Abra um **Pull Request** detalhando suas alterações e sugestões.
+5. Abra um **Pull Request** descrevendo suas mudanças.
 
 ---
 
 ## Licença
 
-Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT). Sinta-se livre para usar, modificar e distribuir o projeto conforme os termos da licença.
+Este projeto está licenciado sob a [MIT License](LICENSE). Sinta-se livre para usar, modificar e distribuir de acordo com as condições estabelecidas.
+
+---
+
+## Contato
+
+- **Autores**:
+  - Lucas Stopinski da Silva
+  - Eduardo Henrique Fabri
+  - João Victor Carvalho de Freitas
+  - Renan Americo Herculano
+- **GitHub**:
+  - Lucas Stopinski da Silva: [@LucasStop](https://github.com/LucasStop)
+  - Eduardo Henrique Fabri: [@eduardofabrii](https://github.com/eduardofabrii)
+  - João Victor Carvalho de Freitas: [@jvecodev](https://github.com/jvecodev)
+  - Renan Americo Herculano: [@RenanH19](https://github.com/RenanH19)
+- **E-mail**:
+  - Lucas Stopinski da Silva: [lucasstopinskidasilva@gmail.com](mailto:lucasstopinskidasilva@gmail.com)
+  - Eduardo Henrique Fabri: [eduardohfabri@gmail.com](mailto:eduardohfabri@gmail.com)
+  - João Victor Carvalho de Freitas: [jvitor.oliveira1803@gmail.com](mailto:jvitor.oliveira1803@gmail.com)
+  - Renan Americo Herculano: [Renan.kaspermaya19americo@gmail.com](mailto:Renan.kaspermaya19americo@gmail.com)
