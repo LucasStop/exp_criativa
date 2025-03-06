@@ -4,12 +4,15 @@
   "description": "API back-end para a confeitaria Cakeria",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node app.js", 
     "dev": "nodemon app.js",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
     "db:reset": "sequelize db:migrate:undo:all && sequelize db:migrate",
-    "db:clean": "node scripts/clean-database.js"
+    "db:clear-data": "node scripts/truncate-data.js",
+    "db:drop-tables": "node scripts/clean-database.js",
+    "db:rebuild": "npm run db:drop-tables && npm run migrate && npm run seed",
+    "db:refresh": "npm run db:clear-data && npm run seed"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
