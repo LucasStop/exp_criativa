@@ -1,0 +1,117 @@
+const { Order, Product, User, OrderProduct, sequelize } = require('../models');
+
+exports.findAll = async (req, res) => {
+  try {
+    const orders = await Order.findAll({
+      include: [
+        { model: User, as: 'user', attributes: ['id', 'name', 'email'] },
+        { model: Product, as: 'products' }
+      ]
+    });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao buscar pedidos", error: error.message });
+  }
+};
+
+exports.findByUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const orders = await Order.findAll({
+      where: { user_id: userId },
+      include: [
+        { model: Product, as: 'products' }
+      ]
+    });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao buscar pedidos do usuário", error: error.message });
+  }
+};
+
+exports.findOne = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await Order.findByPk(id, {
+      include: [
+        { model: User, as: 'user', attributes: ['id', 'name', 'email'] },
+        { 
+          model: Product, 
+          as: 'products',
+          through: { 
+            model: OrderProduct,
+            attributes: ['quantity'] 
+          }
+        }
+      ]
+    });
+    if (!order) {
+      return res.status(404).json({ message: "Pedido não encontrado" });
+    }
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao buscar pedido", error: error.message });
+  }
+};
+
+exports.create = async (req, res) => {
+  const { user_id, products, total } = req.body;
+  
+  try {
+    // Iniciar transação para garantir integridade dos dados
+    const result = await sequelize.transaction(async (t) => {
+      // Criar o pedido
+      const order = await Order.create({
+        user_id,
+        total,
+        status: 'pending'
+      }, { transaction: t });
+      
+      // Adicionar produtos ao pedido
+      if (products && products.length) {
+        const orderProducts = products.map(product => ({
+          order_id: order.id,
+          product_id: product.id,
+          quantity: product.quantity
+        }));
+        
+        await OrderProduct.bulkCreate(orderProducts, { transaction: t });
+      }
+      
+      return order;
+    });
+    
+    // Buscar o pedido completo com produtos
+    const createdOrder = await Order.findByPk(result.id, {
+      include: [{ model: Product, as: 'products' }]
+    });
+    
+    res.status(201).json(createdOrder);
+  } catch (error) {
+    res.status(400).json({ message: "Erro ao criar pedido", error: error.message });
+  }
+};
+
+exports.updateStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  
+  try {
+    const [updated] = await Order.update(
+      { status },
+      { where: { id } }
+    );
+    
+    if (!updated) {
+      return res.status(404).json({ message: "Pedido não encontrado" });
+    }
+    
+    const order = await Order.findByPk(id, {
+      include: [{ model: Product, as: 'products' }]
+    });
+    
+    res.json(order);
+  } catch (error) {
+    res.status(400).json({ message: "Erro ao atualizar status do pedido", error: error.message });
+  }
+};
