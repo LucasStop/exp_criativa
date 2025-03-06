@@ -1,17 +1,18 @@
 /* Global Styles */
 :root {
-  --primary-color: #e63946;
-  --secondary-color: #8b4513;
-  --accent-color: #ffb347;
+  --primary-color: #e63946; /* Vermelho cereja */
+  --secondary-color: #8b4513; /* Marrom chocolate */
+  --accent-color: #ffb347; /* Laranja pastel */
   --text-color-light: #fff;
   --text-color-dark: #333;
-  --light-color: #f1e9db;
-  --dark-color: #3a2618;
-  --white-color: #ffffff;
-  --gray-color: #f4f4f4;
+  --light-color: #f1e9db; /* Bege claro */
+  --dark-color: #3a2618; /* Marrom escuro */
+  --header-background-color: oklch(0.205 0 0);
   --border-radius: 8px;
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
+  --white-color: #ffffff;
+  --gray-color: #f4f4f4;
 }
 
 * {
@@ -67,7 +68,17 @@ img {
 }
 
 .btn-primary:hover {
-  background-color: #d62638;
+  background-color: #c82333; /* Cor mais escura derivada do vermelho cereja */
+  transform: translateY(-3px);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+}
+
+.btn-secondary:hover {
+  background-color: #7a3b10; /* Cor mais escura derivada do marrom chocolate */
   transform: translateY(-3px);
 }
 
@@ -158,12 +169,12 @@ nav ul li a.active::after {
 
 /* Hero */
 .hero {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                    url('/imgs/hero-bg.jpg');
-  background-size: cover;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1089&q=80");
   background-position: center;
+  background-size: cover;
   color: var(--white-color);
-  padding: 100px 0;
+  padding: 200px 0;
   text-align: center;
 }
 
@@ -325,15 +336,15 @@ nav ul li a.active::after {
   .product-details {
     grid-template-columns: 1fr;
   }
-  
+
   .hero-buttons {
     flex-direction: column;
   }
-  
+
   .header .container {
     flex-direction: column;
   }
-  
+
   nav ul {
     margin-top: 15px;
   }
