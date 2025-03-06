@@ -189,6 +189,40 @@ No **frontend** (em `package.json`), você pode ter scripts como:
 
 ---
 
+## Scripts do Package (Backend)
+
+Os scripts abaixo estão configurados no arquivo `package.json` para facilitar tarefas comuns de gerenciamento e manutenção do banco de dados e do servidor:
+
+```json
+"scripts": {
+  "start": "node app.js", // Inicia o servidor em modo de produção
+  "dev": "nodemon app.js", // Inicia o servidor em modo de desenvolvimento, com recarregamento automático
+  "migrate": "sequelize db:migrate", // Executa as migrações do banco de dados
+  "seed": "sequelize db:seed:all", // Popula o banco com dados iniciais (seeds)
+  "db:reset": "sequelize db:migrate:undo:all && sequelize db:migrate", // Reseta o banco, revertendo e reaplicando as migrações
+  "db:clear-data": "node scripts/truncate-data.js", // Limpa os dados existentes no banco de dados
+  "db:drop-tables": "node scripts/clean-database.js", // Remove todas as tabelas do banco de dados
+  "db:rebuild": "npm run db:drop-tables && npm run migrate && npm run seed", // Recria o banco de dados (apaga, migra e popula com seeds)
+  "db:refresh": "npm run db:clear-data && npm run seed" // Limpa os dados atuais e repopula o banco com os seeds
+}
+```
+
+### Descrição dos Scripts
+
+- **`start`**: Inicia o servidor em modo de produção utilizando o comando `node app.js`.
+- **`dev`**: Inicia o servidor com `nodemon`, que reinicia automaticamente o serviço a cada alteração no código, facilitando o desenvolvimento.
+- **`migrate`**: Executa as migrações definidas para configurar e atualizar a estrutura do banco de dados.
+- **`seed`**: Popula o banco de dados com dados iniciais definidos nos arquivos seeders.
+- **`db:reset`**: Reverte todas as migrações e as reaplica, permitindo reiniciar a estrutura do banco.
+- **`db:clear-data`**: Executa um script para limpar os dados existentes no banco, sem alterar a estrutura.
+- **`db:drop-tables`**: Remove as tabelas existentes no banco de dados, útil para uma limpeza completa.
+- **`db:rebuild`**: Realiza uma sequência de operações para apagar as tabelas, migrar a estrutura e repopular o banco com os dados iniciais.
+- **`db:refresh`**: Limpa os dados existentes e repopula o banco, mantendo a estrutura das tabelas intacta.
+
+Essa organização de scripts permite um gerenciamento flexível do ambiente de desenvolvimento e produção, facilitando ações como atualização, limpeza e reinicialização do banco de dados.
+
+---
+
 ## Uso
 
 Depois de:
