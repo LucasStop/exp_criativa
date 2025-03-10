@@ -57,7 +57,28 @@
   <!-- Carregar componentes primeiro -->
   <script src="/components/Header.js"></script>
   <script src="/components/Footer.js"></script>
-  <!-- Depois o script principal -->
-  <script src="/js/script.js"></script>
+  <!-- Script para carregar a configuração da API antes do script principal -->
+  <script>
+    fetch('/config')
+      .then(response => response.json())
+      .then(config => {
+        window.API_URL = config.apiUrl;
+        console.log('API configurada:', window.API_URL);
+        
+        // Carregar o script principal após obter a configuração
+        const script = document.createElement('script');
+        script.src = '/js/script.js';
+        document.body.appendChild(script);
+      })
+      .catch(error => {
+        console.error('Erro ao carregar configuração:', error);
+        // Fallback para URL local
+        window.API_URL = 'http://localhost:3001/api';
+        
+        const script = document.createElement('script');
+        script.src = '/js/script.js';
+        document.body.appendChild(script);
+      });
+  </script>
 </body>
 </html>

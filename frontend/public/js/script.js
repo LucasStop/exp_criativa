@@ -1,5 +1,5 @@
 // Configurações da API
-const API_URL = "http://localhost:3000/api" || process.env.API_URL;
+const API_URL = window.API_URL || "http://localhost:3001/api";
 
 // Estado da aplicação
 let currentPage = "home";
