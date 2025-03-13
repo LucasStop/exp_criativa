@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 // Configurar middleware para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -15,4 +17,5 @@ app.get('*', (req, res) => {
 // Iniciar o servidor
 app.listen(PORT, () => {
 console.log(`Acesse: http://localhost:${PORT}`);
+
 });

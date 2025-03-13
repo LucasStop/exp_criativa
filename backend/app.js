@@ -5,7 +5,7 @@ const cors = require('cors');
 const { sequelize } = require('./models');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Middlewares
 app.use(cors());
@@ -34,9 +34,10 @@ app.get('/', (req, res) => {
 // Sincronizar com o banco de dados e iniciar o servidor
 sequelize.sync({ force: false })
   .then(() => {
-    console.log('Conexão com banco de dados estabelecida');
+    // console.log('Conexão com banco de dados estabelecida');
     app.listen(PORT, () => {
-      console.log(`Acesse: http://localhost:${PORT}`);
+      // console.log(`Acesse: http://localhost:${PORT}`);
+      // console.log(`Porta recebida do .env: ${process.env.PORT}`);
     });
   })
   .catch(err => {

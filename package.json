@@ -1,0 +1,15 @@
+{
+  "name": "cakeria",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"yarn workspace cakeria-backend dev\" \"yarn workspace cakeria-frontend dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
