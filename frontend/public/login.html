@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cakeria | Login</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/assets/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="shortcut icon" type="image/png" href="/assets/favicon-32x32.png">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <a href="/">
+            <img src="/assets/logo_cakeria.png" alt="Cakeria Logo" class="login-logo">
+          </a>
+          <h2>Acesse sua conta</h2>
+        </div>
+        <form id="login-form" class="login-form">
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" placeholder="Sua senha" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-login">Entrar</button>
+        </form>
+        <div class="login-footer">
+          <p>Não possui uma conta? <a href="#" id="register-link">Cadastre-se</a></p>
+          <p class="back-to-home"><a href="/">Voltar para a página inicial</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Script para tratamento do login
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('login-form');
+      const registerLink = document.getElementById('register-link');
+      
+      if (form) {
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+          
+          // Aqui você implementaria a lógica de autenticação
+          console.log('Tentativa de login:', { email, password });
+          
+          // Exemplo de validação simples
+          if (email && password) {
+            // Simulação de login bem-sucedido
+            alert('Login realizado com sucesso!');
+            window.location.href = '/';
+          } else {
+            alert('Por favor, preencha todos os campos.');
+          }
+        });
+      }
+      
+      if (registerLink) {
+        registerLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          alert('Funcionalidade de cadastro em desenvolvimento!');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
