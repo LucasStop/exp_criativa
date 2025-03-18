@@ -17,8 +17,16 @@ class Header extends HTMLElement {
               <li><a href="/categorias" class="nav-link" id="nav-categorias" data-route="categorias">Categorias</a></li>
             </ul>
           </nav>
+          <div class="auth-buttons">
+            <button class="login-btn" data-route="login">
+              Login
+            </button>
+          </div>
         </div>
       </header>
+      <style>
+        
+      </style>
     `;
 
     this.setupEventListeners();
@@ -26,44 +34,60 @@ class Header extends HTMLElement {
   }
 
   setupEventListeners() {
-    const links = this.querySelectorAll('.nav-link');
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
+    const links = this.querySelectorAll(".nav-link");
+    links.forEach((link) => {
+      link.addEventListener("click", (e) => {
         e.preventDefault();
-        const route = link.getAttribute('data-route');
-        
+        const route = link.getAttribute("data-route");
+
         // Remover classe 'active' de todos os links
-        links.forEach(l => l.classList.remove('active'));
-        
+        links.forEach((l) => l.classList.remove("active"));
+
         // Adicionar classe 'active' ao link clicado
-        link.classList.add('active');
-        
+        link.classList.add("active");
+
         // Navegar para a rota
-        if (route === 'home') {
-          window.location.href = '/';
-        } else if (route === 'produtos') {
+        if (route === "home") {
+          window.location.href = "/";
+        } else if (route === "produtos") {
           window.navegarParaProdutos();
-        } else if (route === 'categorias') {
+        } else if (route === "categorias") {
           window.navegarParaCategorias();
         }
       });
+    });
+
+    // Adicionar eventos para os botões de autenticação
+    const loginBtn = this.querySelector(".login-btn");
+    const registerBtn = this.querySelector(".register-btn");
+
+    loginBtn.addEventListener("click", () => {
+      window.navegarParaLogin();
+    });
+
+    registerBtn.addEventListener("click", () => {
+      window.navegarParaRegistro();
     });
   }
 
   highlightCurrentPage() {
     const path = window.location.pathname;
-    const links = this.querySelectorAll('.nav-link');
-    
-    links.forEach(link => {
-      link.classList.remove('active');
-      
-      if ((path === '/' && link.getAttribute('data-route') === 'home') ||
-          (path.includes('/produtos') && link.getAttribute('data-route') === 'produtos') ||
-          (path.includes('/categorias') && link.getAttribute('data-route') === 'categorias')) {
-        link.classList.add('active');
+    const links = this.querySelectorAll(".nav-link");
+
+    links.forEach((link) => {
+      link.classList.remove("active");
+
+      if (
+        (path === "/" && link.getAttribute("data-route") === "home") ||
+        (path.includes("/produtos") &&
+          link.getAttribute("data-route") === "produtos") ||
+        (path.includes("/categorias") &&
+          link.getAttribute("data-route") === "categorias")
+      ) {
+        link.classList.add("active");
       }
     });
   }
 }
 
-customElements.define('header-component', Header);
+customElements.define("header-component", Header);
