@@ -1,9 +1,7 @@
 // Configurações da API
-// Configurações da API
 const API_URL = "http://localhost:3001/api";
 
 // Estado da aplicação
-let currentPage = "home";
 let produtos = [];
 let categorias = [];
 
@@ -18,6 +16,8 @@ const navCategorias = document.getElementById("nav-categorias");
 // Exportar funções de navegação para o window para uso pelos componentes
 window.navegarParaProdutos = navegarParaProdutos;
 window.navegarParaCategorias = navegarParaCategorias;
+window.navegarParaLogin = navegarParaLogin; // Adição da exportação da função de login
+window.navegarParaRegistro = navegarParaRegistro; // Nova função
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", iniciarAplicacao);
@@ -40,65 +40,40 @@ async function iniciarAplicacao() {
   await Promise.all([carregarProdutosDestaque(), carregarCategorias()]);
 
   // Verificar URL para navegação
-  handleNavigation();
-}
-
-function handleNavigation() {
-  const path = window.location.pathname;
-
-  if (path.startsWith("/produtos/") && path.length > 10) {
-    // Exibir detalhes do produto específico
-    const produtoId = path.split("/").pop();
-    carregarDetalhesProduto(produtoId);
-  } else if (path === "/produtos") {
-    navegarParaProdutos();
-  } else if (path === "/categorias") {
-    navegarParaCategorias();
-  } else {
-    // Home page (já carregada)
-  }
+  Navigation.handleNavigation();
 }
 
 // Funções de carregamento de dados
 async function carregarProdutosDestaque() {
   try {
-    const response = await fetch(`${API_URL}/products`);
-    if (!response.ok) throw new Error("Erro ao carregar produtos");
-
-    produtos = await response.json();
+    produtos = await API.produtos.listar();
     renderizarProdutosDestaque(produtos.slice(0, 3)); // Mostrar apenas 3 produtos em destaque
   } catch (error) {
-    console.error("Erro:", error);
-    produtosContainer.innerHTML =
-      '<p class="error">Erro ao carregar produtos. Tente novamente mais tarde.</p>';
+    if (produtosContainer) {
+      produtosContainer.innerHTML = '<p class="error">Erro ao carregar produtos. Tente novamente mais tarde.</p>';
+    }
   }
 }
 
 async function carregarCategorias() {
   try {
-    const response = await fetch(`${API_URL}/categories`);
-    if (!response.ok) throw new Error("Erro ao carregar categorias");
-
-    categorias = await response.json();
+    categorias = await API.categorias.listar();
     renderizarCategorias(categorias);
   } catch (error) {
-    console.error("Erro:", error);
-    categoriasContainer.innerHTML =
-      '<p class="error">Erro ao carregar categorias. Tente novamente mais tarde.</p>';
+    if (categoriasContainer) {
+      categoriasContainer.innerHTML = '<p class="error">Erro ao carregar categorias. Tente novamente mais tarde.</p>';
+    }
   }
 }
 
 async function carregarDetalhesProduto(id) {
   try {
-    const response = await fetch(`${API_URL}/products/${id}`);
-    if (!response.ok) throw new Error("Erro ao carregar detalhes do produto");
-
-    const produto = await response.json();
+    const produto = await API.produtos.obterPorId(id);
     renderizarDetalhesProduto(produto);
   } catch (error) {
-    console.error("Erro:", error);
-    contentEl.innerHTML =
-      '<p class="error">Erro ao carregar detalhes do produto. Tente novamente mais tarde.</p>';
+    if (contentEl) {
+      contentEl.innerHTML = '<p class="error">Erro ao carregar detalhes do produto. Tente novamente mais tarde.</p>';
+    }
   }
 }
 
@@ -268,22 +243,35 @@ function navegarParaCategorias() {
   renderizarListaCategorias();
 }
 
+function navegarParaLogin() {
+  // Navegar para a página de login
+  window.location.href = "/login.html";
+  currentPage = "login";
+}
+
+// Nova função de navegação para registro
+function navegarParaRegistro() {
+  // Navegar para a página de registro
+  window.location.href = "/registro.html";
+  currentPage = "registro";
+}
+
 // Funções auxiliares expostas globalmente
+window.carregarDetalhesProduto = carregarDetalhesProduto;
+window.renderizarListaProdutos = renderizarListaProdutos;
+window.renderizarListaCategorias = renderizarListaCategorias;
+
 window.verDetalhesProduto = async function (id) {
   await carregarDetalhesProduto(id);
 };
 
 window.verProdutosPorCategoria = async function (categoriaId) {
   try {
-    const response = await fetch(`${API_URL}/products/category/${categoriaId}`);
-    if (!response.ok)
-      throw new Error("Erro ao carregar produtos desta categoria");
-
-    produtos = await response.json();
+    produtos = await API.produtos.obterPorCategoria(categoriaId);
     renderizarListaProdutos();
   } catch (error) {
-    console.error("Erro:", error);
-    contentEl.innerHTML =
-      '<p class="error">Erro ao carregar produtos desta categoria. Tente novamente mais tarde.</p>';
+    if (contentEl) {
+      contentEl.innerHTML = '<p class="error">Erro ao carregar produtos desta categoria. Tente novamente mais tarde.</p>';
+    }
   }
 };

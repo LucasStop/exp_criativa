@@ -37,47 +37,14 @@
           <button type="submit" class="btn btn-primary btn-login">Entrar</button>
         </form>
         <div class="login-footer">
-          <p>Não possui uma conta? <a href="#" id="register-link">Cadastre-se</a></p>
+          <p>Não possui uma conta? <a href="/registro.html" id="register-link">Cadastre-se</a></p>
           <p class="back-to-home"><a href="/">Voltar para a página inicial</a></p>
         </div>
       </div>
-
-      <!-- Card de registrar-se -->
-      <div id="register-card" class="login-card" style="display: none;">
-        <div class="login-header">
-          <a href="/">
-            <img src="/assets/logo_cakeria.png" alt="Cakeria Logo" class="login-logo">
-          </a>
-          <h2>Criar nova conta</h2>
-        </div>
-        <form id="register-form" class="login-form">
-          <div class="form-group">
-            <label for="register-name">Nome completo</label>
-            <input type="text" id="register-name" name="name" placeholder="Seu nome completo" required>
-          </div>
-          <div class="form-group">
-            <label for="register-email">E-mail</label>
-            <input type="email" id="register-email" name="email" placeholder="Seu e-mail" required>
-          </div>
-          <div class="form-group">
-            <label for="register-phone">Telefone</label>
-            <input type="tel" id="register-phone" name="phone" placeholder="Seu telefone" required>
-          </div>
-          <div class="form-group">
-            <label for="register-password">Senha</label>
-            <input type="password" id="register-password" name="password" placeholder="Sua senha" required>
-          </div>
-          <button type="submit" class="btn btn-primary btn-login">Cadastrar</button>
-        </form>
-        <div class="login-footer">
-          <p>Já possui uma conta? <a href="#" id="login-link">Fazer login</a></p>
-          <p class="back-to-home"><a href="/">Voltar para a página inicial</a></p>
-        </div>
-      </div>
-
     </div>
   </div>
 
+  <script src="/js/api.js"></script>
   <script src="/js/login.js"></script>
 </body>
 </html>
