@@ -38,6 +38,21 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("confirm-password-error").textContent = "";
     }
   });
+
+  document.getElementById("register-cep").addEventListener("input", function() {
+    validateField(this, validateCEP, "cep-error", "Use o formato 00000-000");
+    if (validateCEP(this.value)) {
+      fetchAddressInfo(this.value);
+    }
+  });
+  
+  document.getElementById("register-street").addEventListener("input", function() {
+    validateField(this, validateStreet, "street-error", "Digite o nome da rua");
+  });
+  
+  document.getElementById("register-number").addEventListener("input", function() {
+    validateField(this, validateNumber, "number-error", "Digite um número válido");
+  });
 });
 
 // Função genérica para validar um campo
@@ -87,6 +102,39 @@ function validatePassword(password) {
   return password.length >= 5;
 }
 
+// Funções de validação adicionais para endereço
+function validateCEP(cep) {
+  // Aceita formatos: 00000-000 ou 00000000
+  const regex = /^\d{5}-?\d{3}$/;
+  return regex.test(cep);
+}
+
+function validateStreet(street) {
+  return street.trim().length >= 3;
+}
+
+function validateNumber(number) {
+  return /^\d+$/.test(number) || /^\d+[a-zA-Z]$/.test(number); // Aceita números ou números seguidos de uma letra
+}
+
+// Função para consultar CEP e preencher endereço automaticamente
+function fetchAddressInfo(cep) {
+  // Remove o traço para compatibilidade com a API
+  cep = cep.replace('-', '');
+  
+  if (cep.length !== 8) return;
+  
+  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    .then(response => response.json())
+    .then(data => {
+      if (!data.erro) {
+        document.getElementById("register-street").value = data.logradouro;
+        // Não preenchemos o número automaticamente
+      }
+    })
+    .catch(error => console.error('Erro ao buscar CEP:', error));
+}
+
 async function handleRegisterSubmit(e) {
   e.preventDefault();
 
@@ -96,6 +144,9 @@ async function handleRegisterSubmit(e) {
   const cpfInput = document.getElementById("register-cpf");
   const passwordInput = document.getElementById("register-password");
   const confirmPasswordInput = document.getElementById("register-confirm-password");
+  const cepInput = document.getElementById("register-cep");
+  const streetInput = document.getElementById("register-street");
+  const numberInput = document.getElementById("register-number");
   
   // Limpa todas as mensagens de erro anteriores
   clearAllErrors();
@@ -106,6 +157,9 @@ async function handleRegisterSubmit(e) {
   const cpf = cpfInput.value.trim();
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
+  const cep = cepInput.value.trim();
+  const street = streetInput.value.trim();
+  const number = numberInput.value.trim();
 
   // Validar todos os campos
   let isValid = true;
@@ -140,6 +194,21 @@ async function handleRegisterSubmit(e) {
     showError(confirmPasswordInput, "confirm-password-error", "As senhas não coincidem");
   }
 
+  if (!validateCEP(cep)) {
+    isValid = false;
+    showError(cepInput, "cep-error", "Use o formato 00000-000");
+  }
+
+  if (!validateStreet(street)) {
+    isValid = false;
+    showError(streetInput, "street-error", "Digite o nome da rua");
+  }
+
+  if (!validateNumber(number)) {
+    isValid = false;
+    showError(numberInput, "number-error", "Digite um número válido");
+  }
+
   if (!isValid) {
     return;
   }
@@ -149,6 +218,11 @@ async function handleRegisterSubmit(e) {
     email: email,
     phone: phone,
     cpf: cpf,
+    address: {
+      cep: cep,
+      street: street,
+      number: number
+    },
     password: password,
   };
 

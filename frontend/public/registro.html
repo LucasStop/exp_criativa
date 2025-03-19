@@ -38,7 +38,7 @@
         <div id="register-card" class="login-card">
           <div class="login-header">
             <h2>Criar nova conta</h2>
-            <p>Preencha os campos abaixo para se cadastrar e fazer parte da nossa comunidade</p>
+            <p>Preencha os campos abaixo para fazer parte da Cakeria</p>
           </div>
           <form id="register-form" class="login-form">
             <!-- Primeira linha: Nome e Email -->
@@ -77,6 +77,31 @@
               </div>
             </div>
             
+            <!-- Endereço em uma única linha: CEP, Rua e Número -->
+            <div class="form-row address-row">
+              <div class="form-col cep-col">
+                <div class="form-group">
+                  <label for="register-cep">CEP</label>
+                  <input type="text" id="register-cep" name="cep" placeholder="00000-000" required>
+                  <span id="cep-error" class="error-message"></span>
+                </div>
+              </div>
+              <div class="form-col street-col">
+                <div class="form-group">
+                  <label for="register-street">Rua</label>
+                  <input type="text" id="register-street" name="street" placeholder="Nome da rua" required>
+                  <span id="street-error" class="error-message"></span>
+                </div>
+              </div>
+              <div class="form-col number-col">
+                <div class="form-group">
+                  <label for="register-number">Nº</label>
+                  <input type="text" id="register-number" name="number" placeholder="123" required>
+                  <span id="number-error" class="error-message"></span>
+                </div>
+              </div>
+            </div>
+            
             <!-- Terceira linha: Senha e Confirmar Senha -->
             <div class="form-row">
               <div class="form-col">
@@ -103,8 +128,7 @@
             </div>
           </form>
           <div class="login-footer">
-            <p>Já possui uma conta? <a href="/login.html" id="login-link">Fazer login</a></p>
-            <p class="back-to-home"><a href="/">Voltar para a página inicial</a></p>
+            <p>Já possui uma conta? <a href="/login.html" id="login-link">Fazer login</a> | <a href="/">Página inicial</a></p>
           </div>
         </div>
       </div>
