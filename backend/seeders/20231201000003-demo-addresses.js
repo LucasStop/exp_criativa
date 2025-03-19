@@ -14,7 +14,8 @@ module.exports = {
       [
         {
           user_id: users[0].id,
-          street: "Rua das Flores, 123",
+          street: "Rua das Flores",
+          number: "11",
           city: "São Paulo",
           state: "SP",
           postal_code: "01234-567",
@@ -24,7 +25,8 @@ module.exports = {
         },
         {
           user_id: users[0].id,
-          street: "Avenida Brasil, 789",
+          street: "Avenida Brasil",
+          number: "12",
           city: "Rio de Janeiro",
           state: "RJ",
           postal_code: "20940-070",
@@ -34,7 +36,8 @@ module.exports = {
         },
         {
           user_id: users[1].id,
-          street: "Rua dos Pinheiros, 456",
+          street: "Rua dos Pinheiros",
+          number: "13",
           city: "São Paulo",
           state: "SP",
           postal_code: "05422-010",
