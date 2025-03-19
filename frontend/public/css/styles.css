@@ -1,10 +1,10 @@
 /* Global Styles */
 :root {
   --primary-color: #e63946; /* Vermelho cereja */
-  --secondary-color: #8b4513; /* Marrom chocolate */
-  --accent-color: #ffb347; /* Laranja pastel */
+  --secondary-color: #333; /* Marrom chocolate */
+  --accent-color: #f06292; /* Laranja pastel */
+  --text-color: #333;
   --text-color-light: #fff;
-  --text-color-dark: #333;
   --light-color: #f1e9db; /* Bege claro */
   --dark-color: #3a2618; /* Marrom escuro */
   --header-background-color: oklch(0.205 0 0);
@@ -13,6 +13,7 @@
   --transition: all 0.3s ease;
   --white-color: #ffffff;
   --gray-color: #f4f4f4;
+  --font-family: 'Poppins', sans-serif;
 }
 
 * {
@@ -22,10 +23,10 @@
 }
 
 body {
-  font-family: 'Poppins', 'Arial', sans-serif;
+  font-family: var(--font-family);
   line-height: 1.6;
-  color: var(--dark-color);
-  background-color: var(--white-color);
+  color: var(--text-color);
+  background-color: #fcfcfc;
 }
 
 .container {
@@ -58,18 +59,18 @@ img {
   cursor: pointer;
   transition: var(--transition);
   border: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
+  font-family: var(--font-family);
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
-  color: var(--white-color);
+  background: linear-gradient(to right, var(--accent-color), #ff9eb5);
+  color: white;
+  box-shadow: 0 3px 10px rgba(240, 98, 146, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: #c82333; /* Cor mais escura derivada do vermelho cereja */
   transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(240, 98, 146, 0.3);
 }
 
 .btn-secondary {
