@@ -1,3 +1,12 @@
+/* Global Font Family */
+:root {
+  --font-family: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+}
+
 /* Estilos do Header */
 .header {
   background-color: rgba(255, 255, 255, 0.9);
@@ -382,7 +391,6 @@
   background-color: var(--secondary-color);
   color: var(--text-color-light);
   padding: 50px 0 30px;
-  margin-top: 50px;
 }
 
 .footer-content {

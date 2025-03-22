@@ -1,12 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const categoryController = require('../controllers/category.controller');
+const categoryController = require("../controllers/category.controller");
 
-// Rotas para categorias
-router.get('/', categoryController.findAll);
-router.get('/:id', categoryController.findOne);
-router.post('/', categoryController.create);
-router.put('/:id', categoryController.update);
-router.delete('/:id', categoryController.delete);
+router.get("/", categoryController.findAll);
+router.get("/:id", categoryController.findOne);
+router.post("/", categoryController.create);
+router.put("/:id", categoryController.update);
+router.delete("/:id", categoryController.delete);
 
 module.exports = router;
