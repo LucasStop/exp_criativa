@@ -3,40 +3,24 @@ class Header extends HTMLElement {
     super();
   }
 
-  connectedCallback() {
-    this.innerHTML = `
-      <header class="header">
-        <div class="container">
-          <div class="logo-container">
-            <img src="/assets/logo_cakeria.png" alt="Cakeria Logo" class="header-logo">
-          </div>
-          
-          <nav class="nav-bar">
-            <ul class="nav-links">
-              <li><a href="/" class="nav-link" data-route="home"><i class="fa-solid fa-home"></i> Home</a></li>
-              <li><a href="/produtos" class="nav-link" id="nav-produtos" data-route="produtos"><i class="fa-solid fa-cake-candles"></i> Produtos</a></li>
-              <li><a href="/categorias" class="nav-link" id="nav-categorias" data-route="categorias"><i class="fa-solid fa-tags"></i> Categorias</a></li>
-            </ul>
-          </nav>
-          
-          <div class="auth-buttons">
-            <button class="login-btn" data-route="login">
-              <i class="fa-solid fa-user"></i> Login
-            </button>
-          </div>
-          
-          <button class="menu-toggle" aria-label="Menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </button>
-        </div>
-        <div class="overlay"></div>
-      </header>
-    `;
+  async connectedCallback() {
+    try {
+      const response = await fetch("/components/Header.html");
+      if (!response.ok) {
+        throw new Error(
+          `Erro ao carregar o template do Header: ${response.status}`
+        );
+      }
 
-    this.setupEventListeners();
-    this.highlightCurrentPage();
+      const html = await response.text();
+      this.innerHTML = html;
+
+      this.setupEventListeners();
+      this.highlightCurrentPage();
+    } catch (error) {
+      console.error("Não foi possível carregar o componente Header:", error);
+      this.innerHTML = "<p>Erro ao carregar o componente Header</p>";
+    }
   }
 
   setupEventListeners() {
@@ -46,16 +30,12 @@ class Header extends HTMLElement {
         e.preventDefault();
         const route = link.getAttribute("data-route");
 
-        // Remover classe 'active' de todos os links
         links.forEach((l) => l.classList.remove("active"));
 
-        // Adicionar classe 'active' ao link clicado
         link.classList.add("active");
-        
-        // Fechar o menu mobile se estiver aberto
+
         this.closeMenu();
 
-        // Navegar para a rota
         if (route === "home") {
           window.location.href = "/";
         } else if (route === "produtos") {
@@ -66,7 +46,6 @@ class Header extends HTMLElement {
       });
     });
 
-    // Adicionar eventos para os botões de autenticação
     const loginBtn = this.querySelector(".login-btn");
     if (loginBtn) {
       loginBtn.addEventListener("click", () => {
@@ -75,33 +54,29 @@ class Header extends HTMLElement {
       });
     }
 
-    // Melhorado toggle do menu mobile com overlay
     this.setupMobileMenu();
   }
-  
+
   setupMobileMenu() {
     const menuToggle = this.querySelector(".menu-toggle");
     const navBar = this.querySelector(".nav-bar");
     const overlay = this.querySelector(".overlay");
-    
+
     if (menuToggle && navBar && overlay) {
       menuToggle.addEventListener("click", () => {
         this.toggleMenu();
       });
-      
-      // Fechar menu ao clicar no overlay
+
       overlay.addEventListener("click", () => {
         this.closeMenu();
       });
-      
-      // Fechar menu ao pressionar ESC
+
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           this.closeMenu();
         }
       });
-      
-      // Ajustar menu ao redimensionar a janela
+
       window.addEventListener("resize", () => {
         if (window.innerWidth > 900 && navBar.classList.contains("active")) {
           this.closeMenu();
@@ -109,33 +84,33 @@ class Header extends HTMLElement {
       });
     }
   }
-  
+
   toggleMenu() {
     const navBar = this.querySelector(".nav-bar");
     const menuToggle = this.querySelector(".menu-toggle");
     const overlay = this.querySelector(".overlay");
-    
+
     navBar.classList.toggle("active");
     menuToggle.classList.toggle("active");
     overlay.classList.toggle("active");
-    
+
     if (navBar.classList.contains("active")) {
-      document.body.style.overflow = "hidden"; // Impedir rolagem
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""; // Restaurar rolagem
+      document.body.style.overflow = "";
     }
   }
-  
+
   closeMenu() {
     const navBar = this.querySelector(".nav-bar");
     const menuToggle = this.querySelector(".menu-toggle");
     const overlay = this.querySelector(".overlay");
-    
+
     if (navBar && navBar.classList.contains("active")) {
       navBar.classList.remove("active");
       menuToggle.classList.remove("active");
       overlay.classList.remove("active");
-      document.body.style.overflow = ""; // Restaurar rolagem
+      document.body.style.overflow = "";
     }
   }
 

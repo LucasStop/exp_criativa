@@ -1,4 +1,6 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -7,7 +9,7 @@ module.exports = {
       'SELECT id FROM users;',
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     );
-    
+
     if (users.length === 0) return;
 
     // Criar pedidos
@@ -40,18 +42,23 @@ module.exports = {
       'SELECT id FROM orders ORDER BY id DESC LIMIT 3;',
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     );
-    
+
     // Buscar produtos
     const products = await queryInterface.sequelize.query(
-      'SELECT id, price FROM products;',
+      'SELECT id, price, image_url FROM products;',
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     );
-    
+
     if (products.length === 0) return;
+
+    // Função para ler imagens e converter em buffer
+    const getImageBuffer = (imagePath) => {
+      return fs.readFileSync(path.join(__dirname, 'images', imagePath)); // Ajuste o caminho conforme necessário
+    };
 
     // Criar itens dos pedidos
     const orderProducts = [];
-    
+
     // Pedido 1: Bolo de Chocolate + Pudim
     orderProducts.push({
       order_id: createdOrders[2].id,
@@ -67,7 +74,7 @@ module.exports = {
       created_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
       updated_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     });
-    
+
     // Pedido 2: Bolo de Casamento
     orderProducts.push({
       order_id: createdOrders[1].id,
@@ -76,7 +83,7 @@ module.exports = {
       created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
       updated_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
     });
-    
+
     // Pedido 3: Torta de Limão + Brigadeiro (10 unidades)
     orderProducts.push({
       order_id: createdOrders[0].id,
@@ -92,7 +99,7 @@ module.exports = {
       created_at: new Date(),
       updated_at: new Date()
     });
-    
+
     await queryInterface.bulkInsert('order_products', orderProducts);
   },
 

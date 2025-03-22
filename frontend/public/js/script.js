@@ -1,11 +1,8 @@
-// Configurações da API
 const API_URL = "http://localhost:3001/api";
 
-// Estado da aplicação
 let produtos = [];
 let categorias = [];
 
-// Elementos DOM
 const contentEl = document.getElementById("content");
 const produtosContainer = document.getElementById("produtos-container");
 const categoriasContainer = document.getElementById("categorias-container");
@@ -13,13 +10,11 @@ const verProdutosBtn = document.getElementById("ver-produtos");
 const navProdutos = document.getElementById("nav-produtos");
 const navCategorias = document.getElementById("nav-categorias");
 
-// Exportar funções de navegação para o window para uso pelos componentes
 window.navegarParaProdutos = navegarParaProdutos;
 window.navegarParaCategorias = navegarParaCategorias;
-window.navegarParaLogin = navegarParaLogin; // Adição da exportação da função de login
-window.navegarParaRegistro = navegarParaRegistro; // Nova função
+window.navegarParaLogin = navegarParaLogin;
+window.navegarParaRegistro = navegarParaRegistro;
 
-// Event Listeners
 document.addEventListener("DOMContentLoaded", iniciarAplicacao);
 if (verProdutosBtn)
   verProdutosBtn.addEventListener("click", navegarParaProdutos);
@@ -34,23 +29,20 @@ if (navCategorias)
     navegarParaCategorias();
   });
 
-// Funções principais
 async function iniciarAplicacao() {
-  // Carregar dados iniciais
   await Promise.all([carregarProdutosDestaque(), carregarCategorias()]);
 
-  // Verificar URL para navegação
   Navigation.handleNavigation();
 }
 
-// Funções de carregamento de dados
 async function carregarProdutosDestaque() {
   try {
     produtos = await API.produtos.listar();
-    renderizarProdutosDestaque(produtos.slice(0, 3)); // Mostrar apenas 3 produtos em destaque
+    renderizarProdutosDestaque(produtos.slice(0, 3));
   } catch (error) {
     if (produtosContainer) {
-      produtosContainer.innerHTML = '<p class="error">Erro ao carregar produtos. Tente novamente mais tarde.</p>';
+      produtosContainer.innerHTML =
+        '<p class="error">Erro ao carregar produtos. Tente novamente mais tarde.</p>';
     }
   }
 }
@@ -61,7 +53,8 @@ async function carregarCategorias() {
     renderizarCategorias(categorias);
   } catch (error) {
     if (categoriasContainer) {
-      categoriasContainer.innerHTML = '<p class="error">Erro ao carregar categorias. Tente novamente mais tarde.</p>';
+      categoriasContainer.innerHTML =
+        '<p class="error">Erro ao carregar categorias. Tente novamente mais tarde.</p>';
     }
   }
 }
@@ -72,12 +65,12 @@ async function carregarDetalhesProduto(id) {
     renderizarDetalhesProduto(produto);
   } catch (error) {
     if (contentEl) {
-      contentEl.innerHTML = '<p class="error">Erro ao carregar detalhes do produto. Tente novamente mais tarde.</p>';
+      contentEl.innerHTML =
+        '<p class="error">Erro ao carregar detalhes do produto. Tente novamente mais tarde.</p>';
     }
   }
 }
 
-// Funções de renderização
 function renderizarProdutosDestaque(produtosDestaque) {
   if (!produtosContainer) return;
 
@@ -234,7 +227,6 @@ function renderizarListaCategorias() {
   window.history.pushState({}, "", "/categorias");
 }
 
-// Funções de navegação
 function navegarParaProdutos() {
   renderizarListaProdutos();
 }
@@ -244,19 +236,15 @@ function navegarParaCategorias() {
 }
 
 function navegarParaLogin() {
-  // Navegar para a página de login
   window.location.href = "/login.html";
   currentPage = "login";
 }
 
-// Nova função de navegação para registro
 function navegarParaRegistro() {
-  // Navegar para a página de registro
   window.location.href = "/registro.html";
   currentPage = "registro";
 }
 
-// Funções auxiliares expostas globalmente
 window.carregarDetalhesProduto = carregarDetalhesProduto;
 window.renderizarListaProdutos = renderizarListaProdutos;
 window.renderizarListaCategorias = renderizarListaCategorias;
@@ -271,7 +259,8 @@ window.verProdutosPorCategoria = async function (categoriaId) {
     renderizarListaProdutos();
   } catch (error) {
     if (contentEl) {
-      contentEl.innerHTML = '<p class="error">Erro ao carregar produtos desta categoria. Tente novamente mais tarde.</p>';
+      contentEl.innerHTML =
+        '<p class="error">Erro ao carregar produtos desta categoria. Tente novamente mais tarde.</p>';
     }
   }
 };
