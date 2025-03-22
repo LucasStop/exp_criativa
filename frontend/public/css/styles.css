@@ -79,7 +79,7 @@ img {
 }
 
 .btn-secondary:hover {
-  background-color: #7a3b10; /* Cor mais escura derivada do marrom chocolate */
+  background-color: #7a3b10; 
   transform: translateY(-3px);
 }
 
